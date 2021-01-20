@@ -70,6 +70,7 @@ type
       sPath : string;
   public
     { Public declarations }
+    openingPath : WideString;
   end;
   const
    SettingsFileName = 'config.ini';
@@ -118,6 +119,8 @@ begin
    fLogin := SettingsIni.ReadString('Login', 'LogCustom', 'admin');
    fPassword := SettingsIni.ReadString('Password', 'PassCustom', 'admin');
    ChBoxSetCustom.Checked := fSetChecked;
+ //************************ new ***************************************
+   openingPath := SettingsIni.ReadString('OpeningPath', ' Начальная папка для поиска ', '');
 //************************************************************************************************
 
  BtnSelectCase.Visible := False;
@@ -157,7 +160,7 @@ var
  i : Integer;
 begin
   ListBoxWind.Clear;
-      if SelectDirectory('Выберите папку с видеофайлами',' ',sPath)  then
+      if SelectDirectory('Выберите папку с видеофайлами',openingPath,sPath)  then
          begin
           sPath := sPath + '\';
           Form1.Caption := 'Выбор видеофайлов - ' + sPath;

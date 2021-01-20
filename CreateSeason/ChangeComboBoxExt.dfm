@@ -181,11 +181,11 @@ object ChangesComboBoxExt: TChangesComboBoxExt
       Left = 16
       Top = 35
       Width = 601
-      Height = 25
+      Height = 21
       TabOrder = 0
     end
     object btnCurrent: TButton
-      Left = 492
+      Left = 16
       Top = 66
       Width = 125
       Height = 25
@@ -197,6 +197,39 @@ object ChangesComboBoxExt: TChangesComboBoxExt
       Font.Style = []
       ParentFont = False
       TabOrder = 1
+      OnClick = btnCurrentClick
+    end
+    object btnEnter: TButton
+      Left = 260
+      Top = 66
+      Width = 125
+      Height = 25
+      Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      OnClick = btnEnterClick
+    end
+    object btnClose: TButton
+      Left = 492
+      Top = 66
+      Width = 125
+      Height = 25
+      Caption = #1047#1072#1082#1088#1099#1090#1100' '#1092#1086#1088#1084#1091
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnClick = btnCloseClick
     end
   end
 end

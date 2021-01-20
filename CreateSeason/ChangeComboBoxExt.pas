@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IniFiles, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IniFiles, Vcl.ExtCtrls, Vcl.FileCtrl;
 
 type
   TChangesComboBoxExt = class(TForm)
@@ -22,6 +22,8 @@ type
     edtPath: TEdit;
     lblPath: TLabel;
     btnCurrent: TButton;
+    btnEnter: TButton;
+    btnClose: TButton;
     procedure FormCreate(Sender: TObject);
     procedure EditAddKeyPress(Sender: TObject; var Key: Char);
     procedure BtnAddClick(Sender: TObject);
@@ -30,6 +32,10 @@ type
     procedure BtnDeleteClick(Sender: TObject);
     procedure BtnApplyClick(Sender: TObject);
     procedure ButtonClearClick(Sender: TObject);
+    procedure btnCurrentClick(Sender: TObject);
+    procedure btnEnterClick(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
+
   private
     { Private declarations }
   public
@@ -48,6 +54,7 @@ uses HeadMenu, Converter;
 
 // конструктор формы
 //*********************************GREATE****************************************
+
 procedure TChangesComboBoxExt.FormCreate(Sender: TObject);
 var
   i: Integer;
@@ -170,6 +177,8 @@ var
        ShowMessage('Вы не ввели расширение');
 
   end;
+
+
 //****************************************************************************
 
 //
@@ -194,12 +203,19 @@ begin
   end;
 
   SettingsIni.WriteInteger('Количество видеоФорматов','Итого  ',countComBox);
+
+//******************  Запись выбора папки по умолчанию *************************
+
+//   SettingsIni.WriteString('Path', 'Начальная папка для поиска ', Form1.openingPath);
+
+//******************************************************************************
   SettingsIni.Free;
   BtnAdd.Enabled := False;
-  BtnDelete.Enabled := False;
 //  countComBox := 0;
   ChangesComboBoxExt.Close;
 end;
+
+
 
 //*****************************Очистка ComboBoxExt ***********************************************
 procedure TChangesComboBoxExt.ButtonClearClick(Sender: TObject);
@@ -217,4 +233,44 @@ begin
    BtnApply.SetFocus;
 end;
 //************************************************************************************************
+
+//******************* Обработка поиска папки по умолчанию
+procedure TChangesComboBoxExt.btnCurrentClick(Sender: TObject);
+var
+s: string;
+begin
+  if SelectDirectory('Выберите каталог', '', s)
+  then
+  begin
+   edtPath.Text := s;
+   btnEnter.Enabled := True;
+  ShowMessage('Выбранный каталог = '+ edtPath.Text);
+  end
+  else ShowMessage('Выбор каталога прервался');
+end;
+
+//******************************************************************************
+
+//************** Кнопка применить папку по умолчанию ************
+ procedure TChangesComboBoxExt.btnEnterClick(Sender: TObject);
+ var
+  SettingsIni : TIniFile;
+begin
+ SettingsIni := TIniFile.Create(ExtractFilePath(Application.ExeName) + SettingsFileName);
+  Form1.openingPath := edtPath.Text;
+  btnEnter.Enabled := False;
+  btnClose.Enabled := True;
+  SettingsIni.WriteString('OpeningPath', 'Начальная папка для поиска ', Form1.openingPath);
+  SettingsIni.Free;
+end;
+//****************************************************************
+
+
+
+procedure TChangesComboBoxExt.btnCloseClick(Sender: TObject);
+var
+i : Integer;
+begin
+BtnApplyClick(nil);
+end;
 end.
