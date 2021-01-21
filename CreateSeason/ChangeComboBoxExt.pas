@@ -244,7 +244,7 @@ begin
   begin
    edtPath.Text := s;
    btnEnter.Enabled := True;
-  ShowMessage('Выбранный каталог = '+ edtPath.Text);
+  ShowMessage('Выбранный каталог => '+ edtPath.Text);
   end
   else ShowMessage('Выбор каталога прервался');
 end;
